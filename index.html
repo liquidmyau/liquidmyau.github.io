@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>liquidmyau | Dominate Unfairly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['JetBrains Mono', 'monospace'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        pink: { DEFAULT: '#ff4785', dim: 'rgba(255,71,133,0.1)', glow: 'rgba(255,71,133,0.35)' },
+                        bg: { main: '#ffffff', sec: '#fff5f8' },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --accent: #ff4785;
+            --accent-dim: rgba(255, 71, 133, 0.1);
+            --accent-glow: rgba(255, 71, 133, 0.3);
+            --bg: #ffffff;
+            --bg2: #fff5f8;
+            --border: rgba(255, 71, 133, 0.2);
+            --muted: #64748b;
+            --text-main: #1e293b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,71,133,0.1), transparent);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        .font-display { font-family: 'JetBrains Mono', monospace; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+        nav.scrolled {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 0;
+        }
+
+        .glow-orb {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: var(--accent);
+            filter: blur(180px);
+            opacity: 0.15;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pulse 9s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+            to   { opacity: 0.2; transform: translate(-50%, -50%) scale(1.12); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1e293b 30%, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: var(--accent-dim);
+            border: 1px solid rgba(255,71,133,0.3);
+            border-radius: 100px;
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.03em;
+        }
+
+        .pill-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 20px var(--accent-dim); }
+        .btn-primary:hover { background: #ff2a70; box-shadow: 0 8px 25px var(--accent-glow); transform: translateY(-2px); }
+
+        .btn-ghost {
+            background: #ffffff;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .btn-ghost:hover { border-color: var(--accent); background: var(--bg2); transform: translateY(-2px); }
+
+        .glass-card {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px;
+            transform: perspective(1000px) rotateY(-6deg) rotateX(4deg);
+            transition: transform 0.6s ease;
+            box-shadow: 0 30px 60px -20px rgba(255,71,133,0.2), 0 0 0 1px rgba(255,71,133,0.1);
+        }
+        .glass-card:hover { transform: perspective(1000px) rotateY(0) rotateX(0); }
+
+        .terminal {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            box-shadow: 0 10px 30px rgba(255,71,133,0.08);
+        }
+        .terminal .comment { color: #94a3b8; }
+        .terminal .cmd { color: var(--accent); font-weight: 600; }
+        .terminal .out { color: var(--text-main); }
+        .terminal-bar {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 14px;
+        }
+        .terminal-bar span {
+            width: 11px; height: 11px; border-radius: 50%;
+        }
+
+        .module-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px;
+            transition: all 0.25s ease;
+            cursor: default;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .module-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px -10px var(--accent-glow);
+        }
+
+        .review-card-inner {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 26px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .review-card-inner:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px -10px var(--accent-glow);
+        }
+
+        .review-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .review-card {
+            flex: 0 0 33.333%;
+            max-width: 33.333%;
+            padding: 0 10px;
+            display: flex;
+        }
+
+        .price-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 36px 28px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .price-card.featured {
+            border-color: var(--accent);
+            background: linear-gradient(160deg, #ffffff 0%, var(--bg2) 100%);
+            box-shadow: 0 0 40px var(--accent-dim), inset 0 1px 0 rgba(255,255,255,0.5);
+            transform: scale(1.04);
+            z-index: 2;
+        }
+
+        .stat-divider {
+            width: 1px;
+            background: var(--border);
+            height: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .review-card { flex: 0 0 100%; max-width: 100%; }
+            .price-card.featured { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+        <a href="#" class="font-display font-bold text-2xl flex items-center gap-2 no-underline text-slate-900" style="text-decoration:none">
+            <span style="color:var(--accent)">//</span> liquidmyau
+        </a>
+        </div>
+</nav>
+
+<section class="min-h-screen flex items-center justify-center relative pt-20">
+    <div class="glow-orb" style="top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+    <div class="max-w-6xl w-full mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+        <div>
+            <div class="pill mb-6"><div class="pill-dot"></div> Forge 1.8.9</div>
+            <h1 class="font-display font-extrabold text-7xl leading-none tracking-tight mb-6 gradient-text">Dominate.<br>Unfairly.</h1>
+            <p class="text-slate-600 text-lg mb-8 leading-relaxed max-w-lg">Stop playing fair. liquidmyau is the optimized, undetectable client built for players who want to win - no excuses, no mercy.</p>
+
+            <div class="flex gap-4 flex-wrap">
+                <a href="https://discord.com/invite/uNZKr8s6vJ" target="_blank" class="btn btn-primary" style="text-decoration:none">
+                    Download (free)
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                </a>
+                <a href="https://discord.com/invite/uNZKr8s6vJ" target="_blank" class="btn btn-ghost" style="text-decoration:none">Join Discord</a>
+            </div>
+
+            <div class="terminal mt-8">
+                <div class="terminal-bar">
+                    <span style="background:#ff5f57"></span>
+                    <span style="background:#febc2e"></span>
+                    <span style="background:#28c840"></span>
+                </div>
+                <div class="comment"># easy install on all devices</div>
+                <div>$ <span class="cmd">install</span> the mod</div>
+                <div>$ <span class="cmd">launch</span> minecraft</div>
+                <div class="out">> injected successfully.</div>
+            </div>
+        </div>
+
+        <div class="hidden md:block">
+            <div class="glass-card">
+                <div class="rounded-xl overflow-hidden bg-black" style="aspect-ratio:16/9; border: 2px solid var(--border);">
+                    <iframe src="https://www.youtube.com/embed/6Hiy7r3Dkas?controls=0&rel=0&autoplay=1&mute=1&loop=1&playlist=6Hiy7r3Dkas" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" class="w-full h-full" style="pointer-events: none;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="border-t border-b py-10" style="border-color:var(--border);background:rgba(255,71,133,0.02)">
+    <div class="max-w-4xl mx-auto flex justify-center items-center gap-0">
+        <div class="flex-1 text-center px-8">
+            <div class="font-display font-bold text-4xl mb-1 text-slate-900">Low</div>
+            <div class="text-slate-500 text-xs uppercase tracking-widest">Detectability</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="flex-1 text-center px-8">
+            <div class="font-display font-bold text-4xl mb-1 text-slate-900">Godly</div>
+            <div class="text-slate-500 text-xs uppercase tracking-widest">Visuals</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="flex-1 text-center px-8">
+            <div class="font-display font-bold text-4xl mb-1 text-slate-900">Always</div>
+            <div class="text-slate-500 text-xs uppercase tracking-widest">Updated</div>
+        </div>
+    </div>
+</div>
+
+<section id="modules" class="py-32">
+    <div class="text-center mb-16 px-6">
+        <h2 class="font-display font-bold text-4xl mb-4 text-slate-900">Everything you need.</h2>
+        <p class="text-slate-600 max-w-lg mx-auto">Stripped down to what wins. No bloat, just raw firepower.</p>
+    </div>
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="moduleContainer"></div>
+</section>
+
+<section id="reviews" class="py-32" style="background:rgba(255,71,133,0.03)">
+    <div class="text-center mb-16 px-6">
+        <h2 class="font-display font-bold text-4xl mb-4 text-slate-900">Community Feedback</h2>
+        <p class="text-slate-600 max-w-lg mx-auto">Don't take our word for it.</p>
+    </div>
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="overflow-hidden mx-[-10px] py-2">
+            <div class="review-track" id="reviewTrack"></div>
+        </div>
+        <div class="flex justify-end gap-3 mt-8">
+            <button id="prevBtn" onclick="moveCarousel(-1)" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:bg-pink-50" style="border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button id="nextBtn" onclick="moveCarousel(1)" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:bg-pink-50" style="border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+<section id="pricing" class="py-32">
+    <div class="text-center mb-16 px-6">
+        <h2 class="font-display font-bold text-4xl mb-4 text-slate-900">Pricing</h2>
+        <p class="text-slate-600">Good cheats shouldn't cost a fortune.</p>
+    </div>
+    <div class="max-w-4xl mx-auto px-6 grid md:grid-cols-3 gap-6 items-center">
+        <div class="price-card">
+            <h3 class="font-display font-bold text-xl mb-1 text-slate-900">Basic</h3>
+            <p class="text-slate-500 text-sm mb-4">Get started for free</p>
+            <div class="font-display font-bold text-5xl mb-6 text-slate-900">$0<span class="text-base font-normal text-slate-500">/forever</span></div>
+            <ul class="space-y-3 mb-8 text-sm">
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Core Modules</li>
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Basic Support</li>
+                <li class="flex items-center gap-3 text-slate-400">• Config Cloud</li>
+                <li class="flex items-center gap-3 text-slate-400">• Priority Support</li>
+            </ul>
+            <a href="https://discord.com/invite/uNZKr8s6vJ" target="_blank" class="btn btn-ghost w-full justify-center" style="text-decoration:none">Download</a>
+        </div>
+
+        <div class="price-card featured">
+            <div class="pill absolute" style="top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;border:none">RECOMMENDED</div>
+            <h3 class="font-display font-bold text-xl mb-1 text-slate-900">Pro</h3>
+            <p class="text-slate-500 text-sm mb-4">For serious players</p>
+            <div class="font-display font-bold text-5xl mb-6 text-slate-900">$?<span class="text-base font-normal text-slate-500">/once</span></div>
+            <ul class="space-y-3 mb-8 text-sm">
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> All Core Modules</li>
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Bypass Features</li>
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Private Configs</li>
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Direct Dev Support</li>
+            </ul>
+            <button class="btn btn-primary w-full justify-center" disabled style="opacity:0.7;cursor:not-allowed">Coming Soon</button>
+        </div>
+
+        <div class="price-card">
+            <h3 class="font-display font-bold text-xl mb-1 text-slate-900">Lifetime</h3>
+            <p class="text-slate-500 text-sm mb-4">Own it forever</p>
+            <div class="font-display font-bold text-5xl mb-6 text-slate-900">$?<span class="text-base font-normal text-slate-500">/once</span></div>
+            <ul class="space-y-3 mb-8 text-sm">
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Everything in Pro</li>
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Beta Access</li>
+                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Custom Cape</li>
+            </ul>
+            <button class="btn btn-ghost w-full justify-center" disabled style="opacity:0.7;cursor:not-allowed">Coming Soon</button>
+        </div>
+    </div>
+</section>
+
+<footer class="border-t py-10 text-center text-slate-500 text-sm mt-10" style="border-color:var(--border)">
+    <p>&copy; 2025 liquidmyau Client. Not affiliated with Mojang Studios.</p>
+</footer>
+
+<script>
+    const features = [
+        { icon: "⚔️", title: "Fakelag", desc: "Dynamically lag to dodge enemy attacks. No paid client has made this module as powerful as ours (yet)." },
+        { icon: "🕰️", title: "Backtrack", desc: "Manipulates incoming packets to hit enemies where they were ticks ago. They can't run away from the past." },
+        { icon: "📖", title: "HudEditor", desc: "Manage beautiful HUD elements with ease, showing info your opponents will never have." },
+        { icon: "🧱", title: "Clutch", desc: "Never fall into the void again. Automatically places blocks or executes perfect MLGs instantly when knocked off." },
+        { icon: "📱", title: "Android Support", desc: "Full support for Android as well as desktop. Crashes get patched fast." },
+        { icon: "👻", title: "SelfDestruct", desc: "Wipe the client for screenshares. Doesn't even show up in your mods folder." },
+        { icon: "🛡️", title: "AutoBlockIn", desc: "Instantly surrounds you with blocks the moment you're targeted. Perfect for holding down positions and surviving traps." },
+        { icon: "🎯", title: "AimAssist", desc: "Smoothly locks your crosshair onto targets. Highly configurable to bypass anticheats and look 100% legit on recordings." },
+        { icon: "📦", title: "And more", desc: "Way too much to list here - download and see for yourself." }
+    ];
+
+    const container = document.getElementById('moduleContainer');
+    features.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'module-card';
+        card.innerHTML = `
+            <div style="font-size:1.9rem;margin-bottom:16px">${f.icon}</div>
+            <div style="font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text-main);font-family:'JetBrains Mono',monospace">${f.title}</div>
+            <div style="color:#64748b;font-size:0.9rem;line-height:1.55">${f.desc}</div>
+        `;
+        container.appendChild(card);
+    });
+
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    const reviews = [
+        { user: "Vikas_999", text: "Just tried StunSlam and it's incredible - honestly better than most paid clients' versions. Super consistent, doesn't flag, looks totally legit from their side. Only downside is version support but once that gets sorted this client's basically flawless. Huge W." , rating: 5 },
+        { user: "Sir Jonathen the 19th", text: "Solid month of use, never been banned, flagged, or suspected. Over 2000 wins on a server, under 200 losses since I started. Went from 100W | 200L to 2000W | 350L. Compared to paid clients I'd rate it 7/10, against other free clients it's easy 10/10.", rating: 5 },
+        { user: "Barely Awake", text: "+rep this client is like a new WM (window manager for all you non-linux users) - hard to get used to but soo good once you do", rating: 5 },
+        { user: "qhxst", text: "goes hard. straight up one of the cleanest I've touched. raw features that actually work. respect to the devs for keeping it real.", rating: 5 },
+        { user: "material", text: "10/10 client and staff team is very kind", rating: 5 }
+    ];
+
+    let idx = 0;
+    const track = document.getElementById('reviewTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function initReviews() {
+        reviews.forEach(r => {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            card.innerHTML = `
+                <div class="review-card-inner">
+                    <div>
+                        <div style="color:var(--accent);margin-bottom:12px;letter-spacing:2px;font-size:0.85rem">★★★★★</div>
+                        <div style="color:#64748b;font-size:0.9rem;line-height:1.6;font-style:italic">"${r.text}"</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;border-top:1px solid var(--border);padding-top:18px;margin-top:20px">
+                        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg2);border:1px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem">${r.user.substring(0,2).toUpperCase()}</div>
+                        <span style="font-weight:600;font-size:0.9rem;color:var(--text-main)">${r.user}</span>
+                    </div>
+                </div>
+            `;
+            track.appendChild(card);
+        });
+        updateNav();
+    }
+
+    function moveCarousel(dir) {
+        const mobile = window.innerWidth <= 768;
+        const show = mobile ? 1 : 3;
+        const max = reviews.length - show;
+        idx = Math.max(0, Math.min(idx + dir, max));
+        track.style.transform = `translateX(${-(idx * (100 / show))}%)`;
+        updateNav();
+    }
+
+    function updateNav() {
+        const mobile = window.innerWidth <= 768;
+        const max = reviews.length - (mobile ? 1 : 3);
+        prevBtn.style.opacity = idx === 0 ? '0.3' : '1';
+        nextBtn.style.opacity = idx >= max ? '0.3' : '1';
+        prevBtn.disabled = idx === 0;
+        nextBtn.disabled = idx >= max;
+    }
+
+    window.addEventListener('resize', () => { idx = 0; track.style.transform = 'translateX(0%)'; updateNav(); });
+
+    initReviews();
+</script>
+</body>
+</html>

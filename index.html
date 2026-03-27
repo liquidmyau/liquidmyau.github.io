@@ -1,41 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- ==================== SEO META (để Google hiện đẹp y hệt Hydrogen) ==================== -->
     <title>liquidmyau | A forge based ghost client for Minecraft 1.8.9</title>
-    <meta name="description" content="liquidmyau is an advanced, so called ghost client for Minecraft version 1.8.9, based on Minecraft Forge. Optimized with low detectability, godly visuals and always updated modules.">
+    <meta name="description" content="liquidmyau is an advanced, undetectable ghost client for Minecraft 1.8.9. Optimized with low detectability and godly visuals.">
     
-    <!-- Bonus meta -->
-    <meta name="keywords" content="liquidmyau, minecraft 1.8.9, ghost client, forge client, cheat client, undetectable hack, potpvp, bedwars, free minecraft client">
-    <meta name="theme-color" content="#ff4785">
-    
-    <!-- Open Graph (Discord, Facebook, Twitter sẽ hiện đẹp) -->
-    <meta property="og:title" content="liquidmyau | A forge based ghost client for Minecraft 1.8.9">
-    <meta property="og:description" content="liquidmyau is an advanced, undetectable ghost client for Minecraft 1.8.9. Dominate unfairly!">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://liquidmyau.github.io/"> <!-- ← THAY BẰNG LINK WEB THẬT CỦA BẠN -->
-    <meta property="og:image" content="https://liquidmyau.github.io/"> <!-- ← THAY BẰNG LINK ẢNH ĐẸP CỦA BẠN (nếu có) -->
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        display: ['JetBrains Mono', 'monospace'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                        body: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Inter', 'sans-serif'],
                     },
                     colors: {
                         pink: { DEFAULT: '#ff4785', dim: 'rgba(255,71,133,0.1)', glow: 'rgba(255,71,133,0.35)' },
-                        bg: { main: '#ffffff', sec: '#fff5f8' },
+                        dark: { main: '#09090b', sec: '#121214', card: '#18181b' },
                     }
                 }
             }
@@ -44,13 +33,11 @@
     <style>
         :root {
             --accent: #ff4785;
-            --accent-dim: rgba(255, 71, 133, 0.1);
-            --accent-glow: rgba(255, 71, 133, 0.3);
-            --bg: #ffffff;
-            --bg2: #fff5f8;
-            --border: rgba(255, 71, 133, 0.2);
-            --muted: #64748b;
-            --text-main: #1e293b;
+            --accent-glow: rgba(255, 71, 133, 0.4);
+            --bg: #09090b;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
         body {
@@ -58,405 +45,290 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,71,133,0.1), transparent);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 71, 133, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(255, 71, 133, 0.03) 0%, transparent 50%);
         }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        .font-display { font-family: 'JetBrains Mono', monospace; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+        
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 100;
-            padding: 20px 0;
+            padding: 24px 0;
             transition: all 0.3s ease;
             border-bottom: 1px solid transparent;
+            background: rgba(9, 9, 11, 0.6);
+            backdrop-filter: blur(12px);
         }
         nav.scrolled {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(16px);
+            padding: 16px 0;
             border-bottom: 1px solid var(--border);
-            padding: 14px 0;
+            background: rgba(9, 9, 11, 0.85);
         }
-        .glow-orb {
-            position: absolute;
-            width: 700px;
-            height: 700px;
-            background: var(--accent);
-            filter: blur(180px);
-            opacity: 0.15;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: pulse 9s infinite alternate;
-        }
-        @keyframes pulse {
-            from { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
-            to { opacity: 0.2; transform: translate(-50%, -50%) scale(1.12); }
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #1e293b 30%, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            background: var(--accent-dim);
-            border: 1px solid rgba(255,71,133,0.3);
-            border-radius: 100px;
-            color: var(--accent);
-            font-size: 0.78rem;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: 0.03em;
-        }
-        .pill-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: blink 2s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
+        
         .btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            padding: 13px 26px;
-            border-radius: 10px;
+            padding: 12px 28px;
+            border-radius: 8px;
             font-weight: 600;
             font-size: 0.95rem;
             transition: all 0.2s ease;
             cursor: pointer;
             text-decoration: none;
-            border: none;
-            font-family: 'Inter', sans-serif;
+            border: 1px solid transparent;
         }
-        .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 20px var(--accent-dim); }
-        .btn-primary:hover { background: #ff2a70; box-shadow: 0 8px 25px var(--accent-glow); transform: translateY(-2px); }
+        .btn-primary { 
+            background: var(--accent); 
+            color: #fff; 
+            box-shadow: 0 0 20px var(--accent-glow); 
+        }
+        .btn-primary:hover { 
+            background: #ff2a70; 
+            box-shadow: 0 0 30px var(--accent-glow); 
+            transform: translateY(-1px); 
+        }
         .btn-ghost {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.03);
             color: var(--text-main);
             border: 1px solid var(--border);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
-        .btn-ghost:hover { border-color: var(--accent); background: var(--bg2); transform: translateY(-2px); }
-        .glass-card {
-            background: rgba(255,255,255,0.7);
+        .btn-ghost:hover { 
+            background: rgba(255, 255, 255, 0.08); 
+            transform: translateY(-1px); 
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 18px;
-            transform: perspective(1000px) rotateY(-6deg) rotateX(4deg);
-            transition: transform 0.6s ease;
-            box-shadow: 0 30px 60px -20px rgba(255,71,133,0.2), 0 0 0 1px rgba(255,71,133,0.1);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 71, 133, 0.1);
         }
-        .glass-card:hover { transform: perspective(1000px) rotateY(0) rotateX(0); }
-        .terminal {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 20px 22px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.8;
-            box-shadow: 0 10px 30px rgba(255,71,133,0.08);
-        }
-        .terminal .comment { color: #94a3b8; }
-        .terminal .cmd { color: var(--accent); font-weight: 600; }
-        .terminal .out { color: var(--text-main); }
-        .terminal-bar {
-            display: flex;
-            gap: 7px;
-            margin-bottom: 14px;
-        }
-        .terminal-bar span {
-            width: 11px; height: 11px; border-radius: 50%;
-        }
+
         .module-card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 28px;
+            border-radius: 12px;
+            padding: 32px;
             transition: all 0.25s ease;
-            cursor: default;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
         .module-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px -10px var(--accent-glow);
+            border-color: rgba(255, 71, 133, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-2px);
         }
-        .review-card-inner {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 26px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-        .review-card-inner:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px -10px var(--accent-glow);
-        }
-        .review-track {
-            display: flex;
-            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .review-card {
-            flex: 0 0 33.333%;
-            max-width: 33.333%;
-            padding: 0 10px;
-            display: flex;
-        }
-        .price-card {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 36px 28px;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-        .price-card.featured {
-            border-color: var(--accent);
-            background: linear-gradient(160deg, #ffffff 0%, var(--bg2) 100%);
-            box-shadow: 0 0 40px var(--accent-dim), inset 0 1px 0 rgba(255,255,255,0.5);
-            transform: scale(1.04);
-            z-index: 2;
-        }
+
         .stat-divider {
             width: 1px;
             background: var(--border);
             height: 48px;
         }
-        @media (max-width: 768px) {
-            .review-card { flex: 0 0 100%; max-width: 100%; }
-            .price-card.featured { transform: scale(1); }
+
+        /* Hidden div for YouTube audio API */
+        #yt-player {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            top: -9999px;
+            left: -9999px;
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
-<body>
+<body class="text-zinc-100">
+
+<div id="yt-player"></div>
+
 <nav id="navbar">
-    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-        <a href="#" class="font-display font-bold text-2xl flex items-center gap-2 no-underline text-slate-900" style="text-decoration:none">
-            <span style="color:var(--accent)">//</span> liquidmyau
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <a href="#" class="font-display font-bold text-xl flex items-center gap-2 tracking-tight">
+            liquidmyau<span style="color:var(--accent)">.</span>
         </a>
+        <div class="flex gap-4">
+            <a href="https://discord.com/invite/uNZKr8s6vJ" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Discord</a>
+            <a href="#" class="text-zinc-400 hover:text-white transition-colors text-sm font-medium">Purchase</a>
+        </div>
     </div>
 </nav>
-<section class="min-h-screen flex items-center justify-center relative pt-20">
-    <div class="glow-orb" style="top:50%;left:50%;transform:translate(-50%,-50%)"></div>
-    <div class="max-w-6xl w-full mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-        <div>
-            <div class="pill mb-6"><div class="pill-dot"></div> Forge 1.8.9</div>
-            <h1 class="font-display font-extrabold text-7xl leading-none tracking-tight mb-6 gradient-text">Dominate.<br>Unfairly.</h1>
-            <p class="text-slate-600 text-lg mb-8 leading-relaxed max-w-lg">Stop playing fair. liquidmyau is the optimized, undetectable client built for players who want to win - no excuses, no mercy.</p>
-            <div class="flex gap-4 flex-wrap">
-                <a href="https://discord.com/invite/uNZKr8s6vJ" target="_blank" class="btn btn-primary" style="text-decoration:none">
-                    Download (free)
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-                </a>
-                <a href="https://discord.com/invite/uNZKr8s6vJ" target="_blank" class="btn btn-ghost" style="text-decoration:none">Join Discord</a>
-            </div>
-            <div class="terminal mt-8">
-                <div class="terminal-bar">
-                    <span style="background:#ff5f57"></span>
-                    <span style="background:#febc2e"></span>
-                    <span style="background:#28c840"></span>
-                </div>
-                <div class="comment"># easy install on all devices</div>
-                <div>$ <span class="cmd">install</span> the mod</div>
-                <div>$ <span class="cmd">launch</span> minecraft</div>
-                <div class="out">> injected successfully.</div>
-            </div>
+
+<section class="min-h-screen flex flex-col items-center justify-center pt-32 pb-20 relative">
+    <div class="max-w-7xl w-full mx-auto px-6 flex flex-col items-center text-center">
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-zinc-300 mb-8 tracking-wide uppercase">
+            <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+            Forge 1.8.9 Ghost Client
         </div>
-        <div class="hidden md:block">
-            <div class="glass-card">
-                <div class="rounded-xl overflow-hidden bg-black" style="aspect-ratio:16/9; border: 2px solid var(--border);">
-                    <iframe src="https://www.youtube.com/embed/rbHDnD_iMVA?controls=0&rel=0&autoplay=1&mute=1&loop=1&playlist=6Hiy7r3Dkas" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" class="w-full h-full" style="pointer-events: none;"></iframe>
-                </div>
-            </div>
+
+        <h1 class="font-display font-black text-6xl md:text-8xl tracking-tighter mb-6 text-white leading-none">
+            Dominate. Unfairly.
+        </h1>
+        
+        <p class="text-zinc-400 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
+            Stop playing fair. liquidmyau is the optimized, undetectable client built for players who want to win — no excuses, no mercy.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 mb-20">
+            <a href="https://discord.com/invite/uNZKr8s6vJ" target="_blank" class="btn btn-primary w-full sm:w-auto">
+                Download Free
+            </a>
+            <a href="https://discord.com/invite/uNZKr8s6vJ" target="_blank" class="btn btn-ghost w-full sm:w-auto">
+                Join Discord
+            </a>
+        </div>
+
+        <div class="w-full max-w-5xl video-wrapper">
+            <video 
+                id="mainVideo" 
+                src="https://files.catbox.moe/t8268z.mp4" 
+                controls 
+                class="w-full rounded-lg bg-black aspect-video object-cover">
+            </video>
         </div>
     </div>
 </section>
-<div class="border-t border-b py-10" style="border-color:var(--border);background:rgba(255,71,133,0.02)">
-    <div class="max-w-4xl mx-auto flex justify-center items-center gap-0">
+
+<div class="border-t border-b border-white/10 py-12 bg-white/[0.01]">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-center items-center gap-8 md:gap-0">
         <div class="flex-1 text-center px-8">
-            <div class="font-display font-bold text-4xl mb-1 text-slate-900">Low</div>
-            <div class="text-slate-500 text-xs uppercase tracking-widest">Detectability</div>
+            <div class="font-display font-bold text-3xl mb-1 text-white">Low</div>
+            <div class="text-zinc-500 text-xs uppercase tracking-[0.2em] font-medium">Detectability</div>
         </div>
-        <div class="stat-divider"></div>
+        <div class="stat-divider hidden md:block"></div>
         <div class="flex-1 text-center px-8">
-            <div class="font-display font-bold text-4xl mb-1 text-slate-900">Godly</div>
-            <div class="text-slate-500 text-xs uppercase tracking-widest">Visuals</div>
+            <div class="font-display font-bold text-3xl mb-1 text-white">Godly</div>
+            <div class="text-zinc-500 text-xs uppercase tracking-[0.2em] font-medium">Visuals</div>
         </div>
-        <div class="stat-divider"></div>
+        <div class="stat-divider hidden md:block"></div>
         <div class="flex-1 text-center px-8">
-            <div class="font-display font-bold text-4xl mb-1 text-slate-900">Always</div>
-            <div class="text-slate-500 text-xs uppercase tracking-widest">Updated</div>
+            <div class="font-display font-bold text-3xl mb-1 text-white">Always</div>
+            <div class="text-zinc-500 text-xs uppercase tracking-[0.2em] font-medium">Updated</div>
         </div>
     </div>
 </div>
+
 <section id="modules" class="py-32">
-    <div class="text-center mb-16 px-6">
-        <h2 class="font-display font-bold text-4xl mb-4 text-slate-900">Everything you need.</h2>
-        <p class="text-slate-600 max-w-lg mx-auto">Stripped down to what wins. No bloat, just raw firepower.</p>
+    <div class="text-center mb-20 px-6">
+        <h2 class="font-display font-bold text-4xl md:text-5xl mb-4 text-white tracking-tight">Everything you need.</h2>
+        <p class="text-zinc-400 max-w-lg mx-auto text-lg">Stripped down to what wins. No bloat, just raw firepower.</p>
     </div>
-    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="moduleContainer"></div>
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="moduleContainer"></div>
 </section>
-<section id="reviews" class="py-32" style="background:rgba(255,71,133,0.03)">
-    <div class="text-center mb-16 px-6">
-        <h2 class="font-display font-bold text-4xl mb-4 text-slate-900">Community Feedback</h2>
-        <p class="text-slate-600 max-w-lg mx-auto">Don't take our word for it.</p>
+
+<footer class="border-t border-white/10 py-12 text-center text-zinc-600 text-sm">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="font-display font-bold text-lg text-zinc-500 tracking-tight">
+            liquidmyau<span style="color:var(--accent)">.</span>
+        </div>
+        <p>&copy; 2026 liquidmyau. Not affiliated with Mojang Studios.</p>
     </div>
-    <div class="max-w-6xl mx-auto px-6">
-        <div class="overflow-hidden mx-[-10px] py-2">
-            <div class="review-track" id="reviewTrack"></div>
-        </div>
-        <div class="flex justify-end gap-3 mt-8">
-            <button id="prevBtn" onclick="moveCarousel(-1)" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:bg-pink-50 text-3xl font-light" style="border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer">
-                &lt;
-            </button>
-            <button id="nextBtn" onclick="moveCarousel(1)" class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:bg-pink-50 text-3xl font-light" style="border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer">
-                &gt;
-            </button>
-        </div>
-    </div>
-</section>
-<section id="pricing" class="py-32">
-    <div class="text-center mb-16 px-6">
-        <h2 class="font-display font-bold text-4xl mb-4 text-slate-900">Pricing</h2>
-        <p class="text-slate-600">Good cheats shouldn't cost a fortune.</p>
-    </div>
-    <div class="max-w-4xl mx-auto px-6 grid md:grid-cols-3 gap-6 items-center">
-        <div class="price-card">
-            <h3 class="font-display font-bold text-xl mb-1 text-slate-900">Basic</h3>
-            <p class="text-slate-500 text-sm mb-4">Get started for free</p>
-            <div class="font-display font-bold text-5xl mb-6 text-slate-900">$0<span class="text-base font-normal text-slate-500">/forever</span></div>
-            <ul class="space-y-3 mb-8 text-sm">
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Core Modules</li>
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Basic Support</li>
-                <li class="flex items-center gap-3 text-slate-400">• Config Cloud</li>
-                <li class="flex items-center gap-3 text-slate-400">• Priority Support</li>
-            </ul>
-            <a href="https://discord.com/invite/uNZKr8s6vJ" target="_blank" class="btn btn-ghost w-full justify-center" style="text-decoration:none">Download</a>
-        </div>
-        <div class="price-card featured">
-            <div class="pill absolute" style="top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;border:none">RECOMMENDED</div>
-            <h3 class="font-display font-bold text-xl mb-1 text-slate-900">Pro</h3>
-            <p class="text-slate-500 text-sm mb-4">For serious players</p>
-            <div class="font-display font-bold text-5xl mb-6 text-slate-900">$?<span class="text-base font-normal text-slate-500">/once</span></div>
-            <ul class="space-y-3 mb-8 text-sm">
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> All Core Modules</li>
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Bypass Features</li>
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Private Configs</li>
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Direct Dev Support</li>
-            </ul>
-            <button class="btn btn-primary w-full justify-center" disabled style="opacity:0.7;cursor:not-allowed">Coming Soon</button>
-        </div>
-        <div class="price-card">
-            <h3 class="font-display font-bold text-xl mb-1 text-slate-900">Lifetime</h3>
-            <p class="text-slate-500 text-sm mb-4">Own it forever</p>
-            <div class="font-display font-bold text-5xl mb-6 text-slate-900">$?<span class="text-base font-normal text-slate-500">/once</span></div>
-            <ul class="space-y-3 mb-8 text-sm">
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Everything in Pro</li>
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Beta Access</li>
-                <li class="flex items-center gap-3 text-slate-800"><span style="color:var(--accent)">✓</span> Custom Cape</li>
-            </ul>
-            <button class="btn btn-ghost w-full justify-center" disabled style="opacity:0.7;cursor:not-allowed">Coming Soon</button>
-        </div>
-    </div>
-</section>
-<footer class="border-t py-10 text-center text-slate-500 text-sm mt-10" style="border-color:var(--border)">
-    <p>&copy; 2025 liquidmyau Client. Not affiliated with Mojang Studios.</p>
 </footer>
 
 <script>
+    // --- Video & YouTube Audio Synchronization ---
+    let ytPlayer;
+    let ytPlayerReady = false;
+
+    // Called automatically by YouTube Iframe API
+    function onYouTubeIframeAPIReady() {
+        ytPlayer = new YT.Player('yt-player', {
+            videoId: 'whK49xSGQgA', // YouTube Audio ID
+            playerVars: { 
+                'autoplay': 0, 
+                'controls': 0,
+                'disablekb': 1,
+                'fs': 0,
+                'rel': 0,
+                'modestbranding': 1
+            },
+            events: {
+                'onReady': onPlayerReady
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+        ytPlayerReady = true;
+        const mainVid = document.getElementById('mainVideo');
+        
+        // Sync initial volume
+        if(mainVid.muted) ytPlayer.mute();
+        else ytPlayer.setVolume(mainVid.volume * 100);
+
+        // Sync Play
+        mainVid.addEventListener('play', () => {
+            if(ytPlayerReady) ytPlayer.playVideo();
+        });
+
+        // Sync Pause
+        mainVid.addEventListener('pause', () => {
+            if(ytPlayerReady) ytPlayer.pauseVideo();
+        });
+
+        // Sync Buffering (Waiting)
+        mainVid.addEventListener('waiting', () => {
+            if(ytPlayerReady) ytPlayer.pauseVideo();
+        });
+
+        // Resume after buffer
+        mainVid.addEventListener('playing', () => {
+            if(ytPlayerReady) ytPlayer.playVideo();
+        });
+
+        // Sync Seeking
+        mainVid.addEventListener('seeked', () => {
+            if(ytPlayerReady) {
+                // Ensure audio matches video current time
+                ytPlayer.seekTo(mainVid.currentTime, true);
+            }
+        });
+
+        // Sync Volume
+        mainVid.addEventListener('volumechange', () => {
+            if(ytPlayerReady) {
+                if(mainVid.muted) {
+                    ytPlayer.mute();
+                } else {
+                    ytPlayer.unMute();
+                    ytPlayer.setVolume(mainVid.volume * 100);
+                }
+            }
+        });
+    }
+
+    // --- UI & Features Data ---
     const features = [
-        { icon: "⚔️", title: "Fakelag", desc: "Dynamically lag to dodge enemy attacks. No paid client has made this module as powerful as ours (yet)." },
-        { icon: "🕰️", title: "Backtrack", desc: "Manipulates incoming packets to hit enemies where they were ticks ago. They can't run away from the past." },
-        { icon: "📖", title: "HudEditor", desc: "Manage beautiful HUD elements with ease, showing info your opponents will never have." },
-        { icon: "🧱", title: "Clutch", desc: "Never fall into the void again. Automatically places blocks or executes perfect MLGs instantly when knocked off." },
-        { icon: "📱", title: "Android Support", desc: "Full support for Android as well as desktop. Crashes get patched fast." },
-        { icon: "👻", title: "SelfDestruct", desc: "Wipe the client for screenshares. Doesn't even show up in your mods folder." },
-        { icon: "🛡️", title: "AutoBlockIn", desc: "Instantly surrounds you with blocks the moment you're targeted. Perfect for holding down positions and surviving traps." },
-        { icon: "🎯", title: "AimAssist", desc: "Smoothly locks your crosshair onto targets. Highly configurable to bypass anticheats and look 100% legit on recordings." },
-        { icon: "📦", title: "And more", desc: "Way too much to list here - download and see for yourself." }
+        { icon: "⚡", title: "Fakelag", desc: "Dynamically lag to dodge enemy attacks. Unmatched hit registration manipulation." },
+        { icon: "⏱", title: "Backtrack", desc: "Manipulates incoming packets to hit enemies where they were ticks ago." },
+        { icon: "🎯", title: "AimAssist", desc: "Smoothly locks crosshair. Highly configurable to bypass anticheats and look 100% legit." },
+        { icon: "🛡", title: "AutoBlockIn", desc: "Instantly surrounds you with blocks when targeted. Perfect for holding positions." },
+        { icon: "🧱", title: "Clutch", desc: "Never fall. Automatically places blocks or executes perfect MLGs when knocked off." },
+        { icon: "📱", title: "Cross-Platform", desc: "Full support for Android environments as well as Windows desktop." }
     ];
+
     const container = document.getElementById('moduleContainer');
     features.forEach(f => {
         const card = document.createElement('div');
         card.className = 'module-card';
         card.innerHTML = `
-            <div style="font-size:1.9rem;margin-bottom:16px">${f.icon}</div>
-            <div style="font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text-main);font-family:'JetBrains Mono',monospace">${f.title}</div>
-            <div style="color:#64748b;font-size:0.9rem;line-height:1.55">${f.desc}</div>
+            <div style="font-size:1.5rem;margin-bottom:16px;color:var(--accent)">${f.icon}</div>
+            <div style="font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text-main);">${f.title}</div>
+            <div style="color:var(--text-muted);font-size:0.9rem;line-height:1.6">${f.desc}</div>
         `;
         container.appendChild(card);
     });
+
     window.addEventListener('scroll', () => {
         document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
-    const reviews = [
-        { user: "NekoPvP", text: "The Backtrack on this is actually insane for 1.8.9. I'm getting first hits every single time in PotPvP and it looks totally legit on recording. Best ghost client right now.", rating: 5 },
-        { user: "kyuutie", text: "Been using liquidmyau on major servers for a month straight. The AimAssist is buttery smooth and I haven't triggered a single ban. Insane bypasses for a free client.", rating: 5 },
-        { user: "astral_", text: "Finally a client that doesn't look like an edgy 2015 hacking terminal. The pink aesthetic is gorgeous, and the auto-clutch has saved my Bedwars winstreak so many times.", rating: 5 },
-        { user: "vape_user", text: "Switched from a $30 paid client to this. AutoBlockIn works flawlessly when I get jumped. Devs actually listen to the community and push fast updates.", rating: 5 },
-        { user: "meowware", text: "10/10 bypasses. 10/10 visuals. The HUD editor is super clean. Never touching another 1.8.9 client again.", rating: 5 }
-    ];
-    let idx = 0;
-    const track = document.getElementById('reviewTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    function initReviews() {
-        reviews.forEach(r => {
-            const card = document.createElement('div');
-            card.className = 'review-card';
-            card.innerHTML = `
-                <div class="review-card-inner">
-                    <div>
-                        <div style="color:var(--accent);margin-bottom:12px;letter-spacing:2px;font-size:0.85rem">★★★★★</div>
-                        <div style="color:#64748b;font-size:0.9rem;line-height:1.6;font-style:italic">"${r.text}"</div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:10px;border-top:1px solid var(--border);padding-top:18px;margin-top:20px">
-                        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg2);border:1px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem">${r.user.substring(0,2).toUpperCase()}</div>
-                        <span style="font-weight:600;font-size:0.9rem;color:var(--text-main)">${r.user}</span>
-                    </div>
-                </div>
-            `;
-            track.appendChild(card);
-        });
-        updateNav();
-    }
-    function moveCarousel(dir) {
-        const mobile = window.innerWidth <= 768;
-        const show = mobile ? 1 : 3;
-        const max = reviews.length - show;
-        idx = Math.max(0, Math.min(idx + dir, max));
-        track.style.transform = `translateX(${-(idx * (100 / show))}%)`;
-        updateNav();
-    }
-    function updateNav() {
-        const mobile = window.innerWidth <= 768;
-        const max = reviews.length - (mobile ? 1 : 3);
-        prevBtn.style.opacity = idx === 0 ? '0.3' : '1';
-        nextBtn.style.opacity = idx >= max ? '0.3' : '1';
-        prevBtn.disabled = idx === 0;
-        nextBtn.disabled = idx >= max;
-    }
-    window.addEventListener('resize', () => { idx = 0; track.style.transform = 'translateX(0%)'; updateNav(); });
-    initReviews();
 </script>
 </body>
 </html>
